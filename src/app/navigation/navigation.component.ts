@@ -4,6 +4,7 @@ import { Observable } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { AuthService } from '../auth.service';
 import User from '../user';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-navigation',
@@ -22,13 +23,18 @@ export class NavigationComponent implements OnInit {
 
   constructor(
     private breakpointObserver: BreakpointObserver,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.authService.userSubject.subscribe((newUser) => {
       this.user = newUser
-      console.log(this.user);
     });
+  }
+
+  onSignOut() {
+    this.authService.logout();
+    this.router.navigate(['/']);
   }
 }

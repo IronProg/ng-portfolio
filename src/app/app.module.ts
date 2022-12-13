@@ -16,6 +16,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
+import { MatChipsModule } from '@angular/material/chips';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -24,9 +26,18 @@ import { AppComponent } from './app.component';
 import { ProjectsComponent } from './projects/projects.component';
 import { LoginComponent } from './login/login.component';
 import { NavigationComponent } from './navigation/navigation.component';
+import { AboutComponent } from './about/about.component';
+import { ContactComponent } from './contact/contact.component';
 
 @NgModule({
-  declarations: [AppComponent, ProjectsComponent, LoginComponent, NavigationComponent],
+  declarations: [
+    AppComponent,
+    ProjectsComponent,
+    LoginComponent,
+    NavigationComponent,
+    AboutComponent,
+    ContactComponent,
+  ],
   imports: [
     BrowserModule,
     AppRoutingModule,
@@ -45,7 +56,9 @@ import { NavigationComponent } from './navigation/navigation.component';
     MatGridListModule,
     MatExpansionModule,
     LayoutModule,
-    MatInputModule
+    MatInputModule,
+    MatChipsModule,
+    MatTooltipModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
