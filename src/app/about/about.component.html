@@ -1,13 +1,62 @@
-<div class="flex flex-col items-center w-full mt-6">
-  <h1>Hello</h1>
+<div class="flex flex-row justify-between w-full pr-16">
+  <!-- Job Experience -->
   <div>
-    <img src="" alt="">
+    <mat-stepper orientation="vertical" [linear]="false">
+      <mat-step>
+        <ng-template matStepLabel>Josapar</ng-template>
+        <div class="step-content">
+          <p>My job is to develop new systems through the usage of C#, ASP.NET, JQuery, HTML, CSS, AJAX, Oracle and Postgres;</p>
+          <p>I am, most of the time, creating web pages through MVC or Razor Pages patterns.</p>
+          <p>Most Remarkable Projects:</p>
+          <div class="ml-3">
+            <mat-list>
+              <li>sds</li>
+              <li>sds</li>
+            </mat-list>
+          </div>
+          <mat-slider min="1" max="5" step="1" value="3" disabled discrete color="accent"></mat-slider>
+          <p class="flex justify-between">
+            <small>Feb/2022</small>
+            <small>-</small>
+            <small>Now</small>
+          </p>
+        </div>
+      </mat-step>
+    </mat-stepper>
   </div>
-  <p>Phrases and phrases</p>
-  <mat-list>
-    <mat-list-item>
-      <mat-icon matListIcon>javascript</mat-icon>
-      <span>Javascript</span>
-    </mat-list-item>
-  </mat-list>
+  <!-- About me -->
+  <div class="flex flex-col items-center w-full mt-6">
+    <h1>Hello</h1>
+    <div>
+      <img src="" alt="">
+    </div>
+    <p>Phrases and phrases</p>
+  </div>
+  <!-- Technologies and Languages -->
+  <div class="">
+    <mat-list>
+      <div mat-subheader>Languages</div>
+      <ng-container *ngFor="let technology of languages">
+        <mat-list-item>
+          <img matListAvatar [src]="technology.svgPath">
+          <div class="left ml-4">
+            <p mat-line class="font-bold">{{ technology.name }}</p>
+            <p mat-line>{{ technology.time }}</p>
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+      <div mat-subheader>Technologies</div>
+      <ng-container *ngFor="let technology of technologies">
+        <mat-list-item>
+          <img matListAvatar [src]="technology.svgPath">
+          <div class="left ml-4">
+            <p mat-line class="font-bold">{{ technology.name }}</p>
+            <p mat-line>{{ technology.time }}</p>
+          </div>
+        </mat-list-item>
+        <mat-divider></mat-divider>
+      </ng-container>
+    </mat-list>
+  </div>
 </div>

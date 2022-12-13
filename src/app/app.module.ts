@@ -18,6 +18,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSliderModule } from '@angular/material/slider';
 
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -59,6 +61,8 @@ import { ContactComponent } from './contact/contact.component';
     MatInputModule,
     MatChipsModule,
     MatTooltipModule,
+    MatStepperModule,
+    MatSliderModule,
   ],
   providers: [],
   bootstrap: [AppComponent],
