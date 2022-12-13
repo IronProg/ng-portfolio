@@ -1,0 +1,15 @@
+<div>
+  <form (submit)="onSubmit()" [formGroup]="loginForm">
+    <div style="display: flex; flex-direction: column; max-width: 250px; margin: auto; margin-top: 250px;">
+      <mat-form-field appearance="fill">
+        <mat-label>Username/Email</mat-label>
+        <input formControlName="username" matInput type="text" name="" id="">
+      </mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>Password</mat-label>
+        <input formControlName="password" matInput type="password" name="" id="">
+      </mat-form-field>
+      <button mat-raised-button color="primary" style="align-self: flex-end;">Login</button>
+    </div>
+  </form>
+</div>
