@@ -1,3 +1,15 @@
 .step-content {
   width: 200px;
 }
+
+.about-page {
+  @apply flex flex-row justify-between w-full pr-16;
+}
+
+.about-me {
+  @apply flex flex-col items-center w-full mt-6 flex-grow;
+}
+
+.about-me h1 {
+  font-size: 2.4rem;
+}
