@@ -1,13 +1,23 @@
 <mat-sidenav-container class="sidenav-container">
-  <mat-sidenav #drawer class="sidenav" fixedInViewport
-      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-      [mode]="(isHandset$ | async) ? 'over' : 'side'"
-      [opened]="(isHandset$ | async) === false">
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'over' : 'side'"
+    [opened]="(isHandset$ | async) === false"
+  >
     <mat-toolbar>Navigate</mat-toolbar>
     <mat-nav-list>
-      <a mat-list-item [routerLink]="['/']">Projects</a>
-      <a mat-list-item [routerLink]="['/', 'about']">About Me</a>
-      <a mat-list-item [routerLink]="['/', 'contact']">Contact/Find Me</a>
+      <a
+        [ngClass]="link.path == activeLink ? 'active-link' : ''"
+        *ngFor="let link of links"
+        mat-list-item
+        [routerLink]="link.path"
+      >
+        <mat-icon mat-list-icon>{{ link.icon }}</mat-icon>
+        {{ link.title }}
+      </a>
     </mat-nav-list>
   </mat-sidenav>
   <mat-sidenav-content>
@@ -17,17 +27,29 @@
         aria-label="Toggle sidenav"
         mat-icon-button
         (click)="drawer.toggle()"
-        *ngIf="isHandset$ | async">
+        *ngIf="isHandset$ | async"
+      >
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <div style="display: flex; align-items: center; justify-content: space-between; width: 100%;">
+      <div
+        style="
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          width: 100%;
+        "
+      >
         <span>angular-app</span>
-        <button mat-mini-fab [mat-menu-trigger-for]="userOptions" style="overflow: hidden;">
+        <button
+          mat-mini-fab
+          [mat-menu-trigger-for]="userOptions"
+          style="overflow: hidden"
+        >
           <img
             *ngIf="user != null; else anonymousIcon"
             src="https://avatars.githubusercontent.com/u/61606251?v=4"
             alt=""
-            style="max-width: 100%; margin-top: -8px;"
+            style="max-width: 100%; margin-top: -8px"
           />
           <ng-template #anonymousIcon>
             <mat-icon>person</mat-icon>
@@ -42,7 +64,9 @@
                 <a mat-menu-item>Add Project</a>
                 <a mat-menu-item>Manage Projects</a>
               </mat-menu>
-              <button type="button" mat-menu-item (click)="onSignOut()">Sign Out</button>
+              <button type="button" mat-menu-item (click)="onSignOut()">
+                Sign Out
+              </button>
             </div>
             <ng-template #anonymousMenu>
               <a routerLink="/login" mat-menu-item>Sign In</a>
@@ -51,7 +75,7 @@
         </button>
       </div>
     </mat-toolbar>
-    <section style="margin-bottom: 10px;">
+    <section style="margin-bottom: 10px">
       <ng-content></ng-content>
     </section>
   </mat-sidenav-content>
