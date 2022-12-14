@@ -1,6 +1,23 @@
 <div class="about-page">
-  <!-- Job Experience -->
-  <div>
+  <!-- About me -->
+  <div class="about-me">
+    <h1>Hello! I'm Iron Berny, a Full Stack Developer</h1>
+    <div>
+      <img src="" alt="" />
+    </div>
+    <p>
+      I've started to study programming with 19 years old, making simple games
+      with C# in unity engine, then, with 20, I took it more seriously,
+      entering an Bachelors Degree in System Development and Analisis, where I
+      learned Javascript, HTML and CSS developing web pages.
+    </p>
+    <p>
+      After one semester, I got a job and learned a lot these last months that
+      I've been working on a day to day practice. Now, I am a full stack
+      developer, capable of creating almost every part of the applications,
+      always taking care of performance, code cleanliness and user experience.
+    </p>
+    <!-- Job Experience -->
     <mat-stepper orientation="vertical" [linear]="false">
       <mat-step>
         <ng-template matStepLabel>Josapar</ng-template>
@@ -48,27 +65,6 @@
         </div>
       </mat-step>
     </mat-stepper>
-  </div>
-  <!-- About me -->
-  <div class="about-me">
-    <h1>Hello! I'm Iron Berny, a Full Stack Developer</h1>
-    <div>
-      <img src="" alt="" />
-    </div>
-    <div class="px-8">
-      <p>
-        I've started to study programming with 19 years old, making simple games
-        with C# in unity engine, then, with 20, I took it more seriously,
-        entering an Bachelors Degree in System Development and Analisis, where I
-        learned Javascript, HTML and CSS developing web pages.
-      </p>
-      <p>
-        After one semester, I got a job and learned a lot these last months that
-        I've been working on a day to day practice. Now, I am a full stack
-        developer, capable of creating almost every part of the applications,
-        always taking care of performance, code cleanliness and user experience.
-      </p>
-    </div>
 
     <!-- Courses -->
     <div class="w-full px-8">
@@ -76,10 +72,26 @@
         <mat-expansion-panel *ngFor="let course of courses">
           <mat-expansion-panel-header>
             <mat-panel-title>{{ course.title }}</mat-panel-title>
-            <mat-panel-description>{{ course.creator }}</mat-panel-description>
           </mat-expansion-panel-header>
           <p>{{ course.description }}</p>
-          <a href="{{ course.certificateUrl }}" target="_blank" class="text-blue-600 hover:text-blue-400">Link to Certificate!</a>
+          <p>
+            <small
+              >Made By:
+              <a [href]="course.creatorUrl" target="_blank" class="clickable-link">
+                {{ course.creator }}
+              </a></small
+            >
+          </p>
+          <a
+            *ngIf="course.certificateUrl"
+            href="{{ course.certificateUrl }}"
+            target="_blank"
+            class="clickable-link"
+            >Link to Certificate!</a
+          >
+          <p *ngIf="!course.certificateUrl">
+            <small><b>Still In Progress</b></small>
+          </p>
         </mat-expansion-panel>
       </mat-accordion>
     </div>
