@@ -2,30 +2,6 @@
   width: 100%;
 }
 
-.about-page {
-  @apply
-    w-full relative px-8
-    md:pl-4
-    lg:px-16;
-}
-
-.about-me {
-  @apply
-    flex flex-col items-center w-full mt-6 mx-auto max-w-[600px]
-    md:mr-auto md:ml-[unset] md:max-w-[500px]
-    lg:max-w-[600px] xl:mx-auto;
-}
-
-.technologies {
-  @apply
-    max-w-[250px] mx-auto
-    md:absolute md:right-0 md:top-0
-}
-
-.clickable-link {
-  @apply text-blue-600 hover:text-blue-400 active:text-blue-200;
-}
-
 .about-me h1 {
   font-size: 2.4rem;
 }
