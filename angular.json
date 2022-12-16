@@ -36,8 +36,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1500kb",
+                  "maximumError": "2mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -99,6 +99,16 @@
               "./node_modules/mdb-ui-kit/css/mdb.min.css"
             ],
             "scripts": []
+          }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "prerender": false,
+            "ssr": false,
+            "browserTarget": "angular-app:build:production",
+            "firebaseProject": "ng-portfolio-21225",
+            "firebaseHostingSite": "ng-portfolio-21225"
           }
         }
       }

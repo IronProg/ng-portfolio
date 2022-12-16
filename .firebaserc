@@ -1,0 +1,14 @@
+{
+  "targets": {
+    "ng-portfolio-21225": {
+      "hosting": {
+        "angular-app": [
+          "ng-portfolio-21225"
+        ]
+      }
+    }
+  },
+  "projects": {
+    "default": "ng-portfolio-21225"
+  }
+}
