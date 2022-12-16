@@ -1,15 +1,83 @@
 <div>
   <form (submit)="onSubmit()" [formGroup]="loginForm">
-    <div style="display: flex; flex-direction: column; max-width: 250px; margin: auto; margin-top: 250px;">
+    <div
+      style="
+        display: flex;
+        flex-direction: column;
+        max-width: 250px;
+        margin: auto;
+        margin-top: 250px;
+      "
+    >
       <mat-form-field appearance="fill">
-        <mat-label>Username/Email</mat-label>
-        <input formControlName="username" matInput type="text" name="" id="">
+        <mat-label>Email</mat-label>
+        <input formControlName="email" matInput type="email" name="" id="" />
+        <mat-hint
+          *ngIf="
+            !loginForm.controls['email'].valid &&
+            loginForm.controls['email'].touched
+          "
+        >
+          <span *ngIf="loginForm.controls['email'].hasError('required')"
+            >Email is required!</span
+          >
+          <span *ngIf="loginForm.controls['email'].hasError('email')"
+            >Invalid email type!</span
+          >
+        </mat-hint>
       </mat-form-field>
       <mat-form-field appearance="fill">
         <mat-label>Password</mat-label>
-        <input formControlName="password" matInput type="password" name="" id="">
+        <input
+          formControlName="password"
+          matInput
+          [type]="hidePassword ? 'password' : 'text'"
+          name=""
+          id=""
+        />
+        <button
+          type="button"
+          mat-icon-button
+          matSuffix
+          (click)="hidePassword = !hidePassword"
+          [attr.aria-label]="'Hide password'"
+          [attr.aria-pressed]="hidePassword"
+        >
+          <mat-icon>{{
+            hidePassword ? "visibility_off" : "visibility"
+          }}</mat-icon>
+        </button>
+        <mat-hint
+          *ngIf="
+            !loginForm.controls['password'].valid &&
+            loginForm.controls['password'].touched
+          "
+        >
+          <span *ngIf="loginForm.controls['password'].hasError('required')"
+            >Password required!</span
+          >
+          <span *ngIf="loginForm.controls['password'].hasError('minlength')"
+            >Password must be at least 6 character long!</span
+          >
+        </mat-hint>
       </mat-form-field>
-      <button mat-raised-button color="primary" style="align-self: flex-end;">Login</button>
+      <div class="d-flex flex-row justify-content-between">
+        <button
+          mat-raised-button
+          [disabled]="!loginForm.valid"
+          type="button"
+          (click)="onAnonymousLogin()"
+        >
+          Anonymous
+        </button>
+        <button
+          mat-raised-button
+          color="primary"
+          [disabled]="!loginForm.valid"
+        >
+          Login
+        </button>
+      </div>
     </div>
   </form>
 </div>

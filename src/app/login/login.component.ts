@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import {
-  FormBuilder,
   FormControl,
   FormGroup,
   Validators,
 } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 
@@ -14,22 +14,61 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
+  isLoading: boolean = false;
+
+  hidePassword: boolean = true;
+
   loginForm = new FormGroup({
-    username: new FormControl('', Validators.required),
-    password: new FormControl('', Validators.required),
+    email: new FormControl('', [Validators.required, Validators.email]),
+    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
   });
 
-  constructor(private authService: AuthService, private router: Router) {}
+  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {}
 
   ngOnInit() {
 
   }
 
   onSubmit() {
-    console.group("Login.component.ts onSubmit Method")
-    console.log(this.loginForm.value)
-    console.groupEnd();
-    this.authService.login();
-    this.router.navigate(['/'])
+    const { email, password } = this.loginForm.value;
+
+    if (email == null || password == null || !this.loginForm.valid) {
+      return;
+    }
+
+    this.isLoading = true;
+    this.authService.login(email, password)
+      .subscribe(
+        authResponse => {
+          // Apply JWT Token
+          this.router.navigate(["/"]);
+        },
+        errorMessage => {
+          this._snackBar.open(errorMessage, 'confirm', {
+            duration: 3000
+          });
+        },
+        () => {
+          this.isLoading = false;
+        }
+      )
+  }
+  onAnonymousLogin() {
+    this.isLoading = true;
+    this.authService.anonymousLogin()
+      .subscribe(
+        authResponse => {
+          // Apply JWT Token
+          this.router.navigate(["/"]);
+        },
+        errorMessage => {
+          this._snackBar.open(errorMessage, 'confirm', {
+            duration: 3000
+          });
+        },
+        () => {
+          this.isLoading = false;
+        }
+      )
   }
 }
