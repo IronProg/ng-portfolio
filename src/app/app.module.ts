@@ -20,6 +20,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSliderModule } from '@angular/material/slider';
+import { MatSelectModule } from '@angular/material/select';
 
 import { LayoutModule } from '@angular/cdk/layout';
 
@@ -63,6 +64,7 @@ import { ContactComponent } from './contact/contact.component';
     MatTooltipModule,
     MatStepperModule,
     MatSliderModule,
+    MatSelectModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

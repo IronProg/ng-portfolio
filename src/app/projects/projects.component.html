@@ -1,13 +1,41 @@
-<div class="projects-grid">
-  <div class="projects-grid-item" *ngFor="let project of projects">
+<div class="card">
+  <div class="card-body">
+    <h3 class="fw-bold text-center">Filters</h3>
+    <form>
+      <div class="row">
+        <div class="col-12 col-sm-6">
+          <mat-form-field>
+            <input matNativeControl type="text" class="w-100" style="max-width: none;">
+            <mat-label>Name</mat-label>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-5">
+          <mat-form-field>
+            <mat-label>Tags</mat-label>
+            <mat-select multiple>
+              <mat-option>C#</mat-option>
+              <mat-option>JS</mat-option>
+              <mat-option>React</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-md-1 d-flex justify-content-end justify-content-md-center">
+          <button type="submit" mat-mini-fab color="primary">
+            <mat-icon>search</mat-icon>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<div class="row py-4">
+  <div class="col-12 col-sm-6 col-lg-4 col-xl-3" *ngFor="let project of projects">
     <mat-card>
       <mat-card-header>
         <mat-card-title>{{ project.title }}</mat-card-title>
         <mat-card-subtitle>
           <mat-chip-list>
-            <mat-chip selected>tag1</mat-chip>
-            <mat-chip selected>tag1</mat-chip>
-            <mat-chip selected>tag1</mat-chip>
+            <mat-chip *ngFor="let tag of project.tags" selected>{{ tag }}</mat-chip>
           </mat-chip-list>
         </mat-card-subtitle>
       </mat-card-header>
@@ -16,16 +44,16 @@
         src="https://img.freepik.com/premium-vector/binary-code-stream-digital-data-codes-hacker-coding-crypto-matrix-numbers-flow-digitally-blue-screen-abstract-background_102902-991.jpg?w=2000"
         alt="Teste"
       />
-      <mat-card-content>
+      <mat-card-content class="pt-3">
         <p>{{ project.description }}</p>
       </mat-card-content>
       <mat-card-actions style="display: flex; justify-content: flex-end; gap: 8px;">
-        <button mat-mini-fab color="accent">
+        <a role="button" [href]="project.viewUrl" mat-mini-fab color="accent">
           <mat-icon>preview</mat-icon>
-        </button>
-        <button mat-mini-fab color="primary">
+        </a>
+        <a role="button" [href]="project.codeUrl" mat-mini-fab color="primary">
           <mat-icon>code</mat-icon>
-        </button>
+        </a>
       </mat-card-actions>
     </mat-card>
   </div>

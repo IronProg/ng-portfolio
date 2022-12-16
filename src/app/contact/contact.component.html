@@ -1,53 +1,78 @@
 <div class="contact-page">
-  <div class="">
-    <mat-card>
-      <mat-card-title>
-        <h1>Contact Me</h1>
-      </mat-card-title>
-      <mat-card-content>
-        <p>
-          Here you can find links to my social media accounts and download my
-          curriculum, if you want.
-        </p>
-        <p>Alternatively, you can <a class="clickable-link" href="mailto:rnberny1@gmail.com?subject=Contact: ">Send me an e-mail</a></p>
-        <p>Feel free to contact me anywhere.</p>
-      </mat-card-content>
-    </mat-card>
-  </div>
-  <div class="links">
-    <h2>My Curriculum</h2>
-    <a
-      href="#"
-      target="_blank"
-      matTooltip="Download my Curriculum"
-      matTooltipPosition="right"
-    >
-      <img
-        src="https://cdn.pixabay.com/photo/2016/03/31/14/48/sheet-1292828_960_720.png"
-        alt=""
-      />
-    </a>
-    <h2>Social Media Profiles</h2>
-    <div class="profiles">
-      <a
-        href="https://www.linkedin.com/in/iron-berny"
-        target="_blank"
-        matTooltip="Check out my LinkedIn profile"
-        matTooltipPosition="left"
-      >
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
-          alt=""
-        />
-      </a>
-      <a
-        href="https://github.com/IronProg"
-        target="_blank"
-        matTooltip="Check out My GitHub profile"
-        matTooltipPosition="right"
-      >
-        <img src="https://cdn-icons-png.flaticon.com/512/25/25231.png" alt="" />
-      </a>
+  <mat-card>
+    <mat-card-title>
+      <h1>Contact Me</h1>
+    </mat-card-title>
+    <mat-card-content>
+      <p>
+        Here you can find links to my social media accounts and download my
+        curriculum, if you want.
+      </p>
+      <p>
+        Alternatively, you can
+        <a
+          class="clickable-link"
+          href="mailto:rnberny1@gmail.com?subject=Contact: "
+          >Send me an e-mail</a
+        >
+      </p>
+      <p>Feel free to contact me anywhere.</p>
+    </mat-card-content>
+  </mat-card>
+  <div class="row mt-5 px-lg-5">
+    <div class="col-4">
+      <h2 class="text-center">My Curriculum</h2>
+      <div class="d-flex justify-content-center">
+        <a
+          href="#"
+          target="_blank"
+          matTooltip="Download my Curriculum"
+          matTooltipPosition="below"
+        >
+          <img
+            src="https://cdn.pixabay.com/photo/2016/03/31/14/48/sheet-1292828_960_720.png"
+            alt="Document Logo"
+            class="w-100"
+            style="max-width: 150px"
+          />
+        </a>
+      </div>
+    </div>
+    <div class="col-4">
+      <h2 class="text-center">LinkedIn Profile</h2>
+      <div class="d-flex justify-content-center">
+        <a
+          href="https://www.linkedin.com/in/iron-berny"
+          target="_blank"
+          matTooltip="Go to my LinkedIn profile"
+          matTooltipPosition="below"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/174/174857.png"
+            alt="LinkedIn Logo"
+            class="w-100"
+            style="max-width: 150px"
+          />
+        </a>
+      </div>
+    </div>
+    <div class="col-4">
+      <h2 class="text-center">Github Profile</h2>
+      <div class="d-flex justify-content-center">
+        <a
+          href="https://github.com/IronProg"
+          target="_blank"
+          matTooltip="Check out My GitHub profile"
+          matTooltipPosition="below"
+        >
+          <img
+            src="https://cdn-icons-png.flaticon.com/512/25/25231.png"
+            alt="Github Logo"
+            class="w-100"
+            style="max-width: 150px"
+          />
+        </a>
+      </div>
     </div>
   </div>
 </div>

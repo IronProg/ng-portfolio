@@ -1,15 +1,20 @@
-<div class="about-page">
+<div class="row">
   <!-- About me -->
-  <div class="about-me">
-    <h1>Hello! I'm Iron Berny, a Full Stack Developer</h1>
-    <div>
-      <img src="" alt="" />
+  <div class="col-xl-9">
+    <div class="w-100 d-flex justify-content-center my-4">
+      <img
+        src="https://avatars.githubusercontent.com/u/61606251?v=4"
+        alt="Iron Berny profile Pic"
+        class="rounded-circle w-100"
+        style="max-width: 300px"
+      />
     </div>
+    <h1 class="text-center">Hello! I'm Iron Berny, a Full Stack Developer</h1>
     <p>
       I've started to study programming with 19 years old, making simple games
-      with C# in unity engine, then, with 20, I took it more seriously,
-      entering an Bachelors Degree in System Development and Analisis, where I
-      learned Javascript, HTML and CSS developing web pages.
+      with C# in unity engine, then, with 20, I took it more seriously, entering
+      an Bachelors Degree in System Development and Analisis, where I learned
+      Javascript, HTML and CSS developing web pages.
     </p>
     <p>
       After one semester, I got a job and learned a lot these last months that
@@ -17,110 +22,127 @@
       developer, capable of creating almost every part of the applications,
       always taking care of performance, code cleanliness and user experience.
     </p>
-    <!-- Job Experience -->
-    <mat-stepper orientation="vertical" [linear]="false">
-      <mat-step>
-        <ng-template matStepLabel>Josapar</ng-template>
-        <div class="step-content">
-          <p>
-            My job is to develop new systems through the usage of C#, ASP.NET,
-            JQuery, HTML, CSS, AJAX, Oracle and Postgres;
-          </p>
-          <p>
-            I am, most of the time, creating web pages through MVC or Razor
-            Pages patterns.
-          </p>
-          <div class="ml-3">
-            <mat-list>
-              <li>
+    <div class="row">
+      <div class="col-12 col-xl-6">
+        <!-- Job Experience -->
+        <mat-stepper orientation="vertical" [linear]="false">
+          <mat-step>
+            <ng-template matStepLabel>Josapar</ng-template>
+            <div class="step-content">
+              <p>
+                My job is to develop new systems through the use of C#, ASP.NET,
+                JQuery, HTML, CSS, AJAX, Oracle and Postgres;
+              </p>
+              <p>
+                I am, most of the time, creating web pages through MVC or Razor
+                Pages patterns.
+              </p>
+              <div class="ml-3">
+                <mat-list>
+                  <li>
+                    <small
+                      >Made an entire system to view, edit and publish news,
+                      with authorization, APIs and public section, delivered to
+                      the Marketing sector of the company.</small
+                    >
+                  </li>
+                  <li>
+                    <small
+                      >Made many dashboards, with fullstack data analytics,
+                      showing to the users in many ways, like graphic, tree
+                      views, vector maps and organizational charts.</small
+                    >
+                  </li>
+                </mat-list>
+              </div>
+              <mat-slider
+                style="width: 100%"
+                min="1"
+                max="5"
+                step="1"
+                value="3"
+                disabled
+                discrete
+                color="accent"
+              ></mat-slider>
+              <p class="flex justify-between">
+                <small>Feb/2022</small>
+                <small>Now</small>
+              </p>
+            </div>
+          </mat-step>
+        </mat-stepper>
+      </div>
+      <div class="col-12 col-xl-6">
+        <!-- Courses -->
+        <div>
+          <mat-accordion>
+            <mat-expansion-panel *ngFor="let course of courses">
+              <mat-expansion-panel-header>
+                <mat-panel-title>{{ course.title }}</mat-panel-title>
+              </mat-expansion-panel-header>
+              <p>{{ course.description }}</p>
+              <p>
                 <small
-                  >Made an entire system to view, edit and publish news, with
-                  authorization, APIs and public section, delivered to the
-                  Marketing sector of the company.</small
+                  >Made By:
+                  <a
+                    [href]="course.creatorUrl"
+                    target="_blank"
+                    class="clickable-link"
+                  >
+                    {{ course.creator }}
+                  </a></small
                 >
-              </li>
-              <li>
-                <small
-                  >Made many dashboards, with fullstack data analytics, showing
-                  to the users in many ways, like graphic, tree views, vector
-                  maps and organizational charts.</small
-                >
-              </li>
-            </mat-list>
-          </div>
-          <mat-slider
-            style="width: 100%"
-            min="1"
-            max="5"
-            step="1"
-            value="3"
-            disabled
-            discrete
-            color="accent"
-          ></mat-slider>
-          <p class="flex justify-between">
-            <small>Feb/2022</small>
-            <small>Now</small>
-          </p>
+              </p>
+              <a
+                *ngIf="course.certificateUrl"
+                href="{{ course.certificateUrl }}"
+                target="_blank"
+                class="clickable-link"
+                >Link to Certificate!</a
+              >
+              <p *ngIf="!course.certificateUrl">
+                <small><b>Still In Progress</b></small>
+              </p>
+            </mat-expansion-panel>
+          </mat-accordion>
         </div>
-      </mat-step>
-    </mat-stepper>
-
-    <!-- Courses -->
-    <div >
-      <mat-accordion>
-        <mat-expansion-panel *ngFor="let course of courses">
-          <mat-expansion-panel-header>
-            <mat-panel-title>{{ course.title }}</mat-panel-title>
-          </mat-expansion-panel-header>
-          <p>{{ course.description }}</p>
-          <p>
-            <small
-              >Made By:
-              <a [href]="course.creatorUrl" target="_blank" class="clickable-link">
-                {{ course.creator }}
-              </a></small
-            >
-          </p>
-          <a
-            *ngIf="course.certificateUrl"
-            href="{{ course.certificateUrl }}"
-            target="_blank"
-            class="clickable-link"
-            >Link to Certificate!</a
-          >
-          <p *ngIf="!course.certificateUrl">
-            <small><b>Still In Progress</b></small>
-          </p>
-        </mat-expansion-panel>
-      </mat-accordion>
+      </div>
     </div>
   </div>
   <!-- Technologies and Languages -->
-  <div class="technologies">
-    <mat-list>
-      <div mat-subheader>Languages</div>
-      <ng-container *ngFor="let technology of languages">
-        <mat-list-item>
-          <img matListAvatar [src]="technology.svgPath" />
-          <div class="left ml-4">
-            <p mat-line class="font-bold">{{ technology.name }}</p>
-            <p mat-line>{{ technology.time }}</p>
-          </div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </ng-container>
-      <div mat-subheader>Technologies</div>
-      <ng-container *ngFor="let technology of technologies">
-        <mat-list-item>
-          <img matListAvatar [src]="technology.svgPath" />
-          <div class="left ml-4">
-            <p mat-line class="font-bold">{{ technology.name }}</p>
-            <p mat-line>{{ technology.time }}</p>
-          </div>
-        </mat-list-item>
-        <mat-divider></mat-divider>
-      </ng-container>
-    </mat-list>
+  <div class="col-xl-3">
+    <div class="row p-0">
+      <div class="col-12 col-sm-6 col-xl-12">
+        <mat-list>
+          <div mat-subheader>Languages</div>
+          <ng-container *ngFor="let technology of languages">
+            <mat-list-item>
+              <img matListAvatar [src]="technology.svgPath" />
+              <div class="ms-2">
+                <p mat-line class="font-bold">{{ technology.name }}</p>
+                <p mat-line>{{ technology.time }}</p>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </mat-list>
+      </div>
+      <div class="col-12 col-sm-6 col-xl-12">
+        <mat-list>
+          <div mat-subheader>Technologies</div>
+          <ng-container *ngFor="let technology of technologies">
+            <mat-list-item>
+              <img matListAvatar [src]="technology.svgPath" />
+              <div class="ms-2">
+                <p mat-line class="font-bold">{{ technology.name }}</p>
+                <p mat-line>{{ technology.time }}</p>
+              </div>
+            </mat-list-item>
+            <mat-divider></mat-divider>
+          </ng-container>
+        </mat-list>
+      </div>
+    </div>
   </div>
 </div>

@@ -4,7 +4,6 @@ mat-card img {
   height: 80%;
 }
 
-mat-card {
-  max-width: 350px
+mat-form-field {
+  width: 100%;
 }
-
