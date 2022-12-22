@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Observable } from 'rxjs';
 import { filter, map, shareReplay } from 'rxjs/operators';
-import { AuthService } from '../auth.service';
-import User from '../user';
+import { AuthService } from '../login/auth.service';
+import { User } from '../user.model';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 
 @Component({
@@ -18,6 +18,8 @@ export class NavigationComponent implements OnInit {
     { path: '/contact', title: 'Contact Me', icon: 'contacts'},
   ]
   user: User | null = null;
+
+  isSideNavOpen: boolean = false;
 
   activeLink = "/";
 
@@ -36,6 +38,9 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit() {
     this.authService.userSubject.subscribe((newUser) => {
+      if (!newUser) {
+        this.router.navigate(["/login"])
+      }
       this.user = newUser
     });
     this.router.events
@@ -48,6 +53,19 @@ export class NavigationComponent implements OnInit {
 
   onSignOut() {
     this.authService.logout();
-    this.router.navigate(['/']);
+  }
+
+  isAdmin(): boolean {
+    if (!this.user || this.user?.email == null) {
+      return false;
+    }
+    if (this.user.id != "e1asEiZYVcQZYELF1T6fDIsgGuC3") {
+      return false
+    }
+    return true;
+  }
+
+  toggleSideNav() {
+    this.isSideNavOpen = !this.isSideNavOpen;
   }
 }

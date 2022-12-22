@@ -1,32 +1,46 @@
-import { Component, OnInit } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  Validators,
-} from '@angular/forms';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { AuthService } from '../auth.service';
+import { Subscription } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   isLoading: boolean = false;
-
   hidePassword: boolean = true;
+
+  userSubject = new Subscription();
 
   loginForm = new FormGroup({
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    password: new FormControl('', [
+      Validators.required,
+      Validators.minLength(6),
+    ]),
   });
 
-  constructor(private authService: AuthService, private router: Router, private _snackBar: MatSnackBar) {}
+  constructor(
+    private authService: AuthService,
+    private router: Router
+  ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
+    this.userSubject = this.authService.userSubject.subscribe({
+      next: (userNext) => {
+        if (!!userNext) {
+          this.router.navigate(['/'])
+        }
+      }
+    })
+  }
 
+  ngOnDestroy(): void {
+    this.userSubject.unsubscribe();
   }
 
   onSubmit() {
@@ -36,39 +50,10 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.isLoading = true;
-    this.authService.login(email, password)
-      .subscribe(
-        authResponse => {
-          // Apply JWT Token
-          this.router.navigate(["/"]);
-        },
-        errorMessage => {
-          this._snackBar.open(errorMessage, 'confirm', {
-            duration: 3000
-          });
-        },
-        () => {
-          this.isLoading = false;
-        }
-      )
+    this.authService.login(email, password);
   }
+
   onAnonymousLogin() {
-    this.isLoading = true;
-    this.authService.anonymousLogin()
-      .subscribe(
-        authResponse => {
-          // Apply JWT Token
-          this.router.navigate(["/"]);
-        },
-        errorMessage => {
-          this._snackBar.open(errorMessage, 'confirm', {
-            duration: 3000
-          });
-        },
-        () => {
-          this.isLoading = false;
-        }
-      )
+    this.authService.anonymousLogin();
   }
 }
