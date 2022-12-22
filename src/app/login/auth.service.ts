@@ -25,15 +25,45 @@ interface IAuthReturn {
 export class AuthService {
   private signInUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`;
   private anonymousSignInUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`;
-  private user: User | null = null;
 
   userSubject = new BehaviorSubject<User | null>(null);
+
+  logoutTimer: ReturnType<typeof setTimeout> = setTimeout(() => {}, 0);
 
   constructor(
     private readonly http: HttpClient,
     private _snackBar: MatSnackBar,
     private router: Router
   ) {}
+
+  autoLogin() {
+    const localData: string | null = localStorage.getItem('portfolioUser');
+
+    if (localData) {
+      const user: {
+        email: string | null,
+        id: string,
+        _token: string,
+        _tokenExpirationDate: Date,
+        _refreshToken: string
+      } = JSON.parse(localData);
+
+      const expirationDate = new Date(user._tokenExpirationDate);
+
+      if (new Date() > expirationDate) {
+        this.logout();
+        return;
+      }
+
+
+      const nextUser = new User(user.email, user.id, user._token, expirationDate, user._refreshToken);
+
+      const newTimeToExpire = expirationDate.getTime() - new Date().getTime();
+
+      this.autoLogout(newTimeToExpire);
+      this.userSubject.next(nextUser);
+    }
+  }
 
   login(email: string, password: string) {
     let loginData: IAuthSend = {
@@ -46,23 +76,7 @@ export class AuthService {
       .post<IAuthReturn>(this.signInUrl, loginData)
       .pipe(catchError(this.handleError))
       .subscribe({
-        next: (authResponse) => {
-          let expirationDate = new Date(
-            new Date().getTime() + +authResponse.expiresIn * 1000
-          );
-
-          let nextUser = new User(
-            authResponse.email,
-            authResponse.localId,
-            authResponse.idToken,
-            expirationDate,
-            authResponse.refreshToken
-          );
-
-          this.userSubject.next(nextUser);
-
-          this.showAuthenticatedSnackBar();
-        },
+        next: this.handleLogin.bind(this),
       });
   }
 
@@ -75,34 +89,45 @@ export class AuthService {
       .post<IAuthReturn>(this.anonymousSignInUrl, loginData)
       .pipe(catchError(this.handleError))
       .subscribe({
-        next: (authResponse) => {
-          let expirationDate = new Date(
-            new Date().getTime() + +authResponse.expiresIn * 1000
-          );
-
-          let nextUser = new User(
-            null,
-            authResponse.localId,
-            authResponse.idToken,
-            expirationDate,
-            authResponse.refreshToken
-          );
-
-          this.userSubject.next(nextUser);
-
-          this.showAuthenticatedSnackBar();
-        },
-        error: (errorMessage) => {
-          this._snackBar.open(errorMessage, 'confirm', {
-            duration: 3000,
-          });
-        },
+        next: this.handleLogin.bind(this),
       });
   }
 
   logout() {
-    this.user = null;
-    this.userSubject.next(this.user);
+    this.userSubject.next(null);
+    localStorage.removeItem('portfolioUser');
+    clearTimeout(this.logoutTimer);
+    this.router.navigate(['/login']);
+  }
+
+  private autoLogout(timeToLogout: number) {
+    console.log("Time to logout: " + timeToLogout);
+    this.logoutTimer = setTimeout(() => {
+      this.logout();
+    }, timeToLogout)
+  }
+
+  private handleLogin(authResponse: IAuthReturn) {
+    let expirationDate = new Date(
+      new Date().getTime() + +authResponse.expiresIn * 1000
+    );
+
+    let email = !!authResponse.email ? authResponse.email : null;
+
+    let nextUser = new User(
+      email,
+      authResponse.localId,
+      authResponse.idToken,
+      expirationDate,
+      authResponse.refreshToken
+    );
+
+    localStorage.setItem("portfolioUser", JSON.stringify(nextUser));
+    this.userSubject.next(nextUser);
+
+    this.autoLogout(+authResponse.expiresIn * 1000);
+
+    this.showAuthenticatedSnackBar();
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
@@ -119,10 +144,13 @@ export class AuthService {
         errorMessage = 'This user is disabled.';
         break;
     }
+    this._snackBar.open(errorMessage, 'Confirm', {
+      duration: 5000,
+    });
     return throwError(errorMessage);
   }
 
-  private showAuthenticatedSnackBar(): void{
+  private showAuthenticatedSnackBar(): void {
     this._snackBar.open('Authenticated', '', {
       duration: 3000,
     });

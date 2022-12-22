@@ -38,9 +38,6 @@ export class NavigationComponent implements OnInit {
 
   ngOnInit() {
     this.authService.userSubject.subscribe((newUser) => {
-      if (!newUser) {
-        this.router.navigate(["/login"])
-      }
       this.user = newUser
     });
     this.router.events
