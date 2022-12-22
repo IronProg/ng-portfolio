@@ -2,7 +2,16 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
-import { BehaviorSubject, catchError, Subject, throwError } from 'rxjs';
+import {
+  BehaviorSubject,
+  catchError,
+  exhaustMap,
+  map,
+  pipe,
+  Subject,
+  take,
+  throwError,
+} from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { User } from '../user.model';
 
@@ -21,10 +30,17 @@ interface IAuthReturn {
   registered?: boolean;
 }
 
+interface IRefreshTokenReturn {
+  idToken: string,
+  refreshToken: string,
+  expiresIn: string
+}
+
 @Injectable({ providedIn: 'root' })
 export class AuthService {
   private signInUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=${environment.firebase.apiKey}`;
   private anonymousSignInUrl: string = `https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${environment.firebase.apiKey}`;
+  private refreshTokenUrl: string = `https://securetoken.googleapis.com/v1/token?key=${environment.firebase.apiKey}`;
 
   userSubject = new BehaviorSubject<User | null>(null);
 
@@ -41,11 +57,11 @@ export class AuthService {
 
     if (localData) {
       const user: {
-        email: string | null,
-        id: string,
-        _token: string,
-        _tokenExpirationDate: Date,
-        _refreshToken: string
+        email: string | null;
+        id: string;
+        _token: string;
+        _tokenExpirationDate: Date;
+        _refreshToken: string;
       } = JSON.parse(localData);
 
       const expirationDate = new Date(user._tokenExpirationDate);
@@ -55,8 +71,13 @@ export class AuthService {
         return;
       }
 
-
-      const nextUser = new User(user.email, user.id, user._token, expirationDate, user._refreshToken);
+      const nextUser = new User(
+        user.email,
+        user.id,
+        user._token,
+        expirationDate,
+        user._refreshToken
+      );
 
       const newTimeToExpire = expirationDate.getTime() - new Date().getTime();
 
@@ -74,7 +95,7 @@ export class AuthService {
 
     return this.http
       .post<IAuthReturn>(this.signInUrl, loginData)
-      .pipe(catchError(this.handleError))
+      .pipe(catchError(this.handleError.bind(this)))
       .subscribe({
         next: this.handleLogin.bind(this),
       });
@@ -87,7 +108,7 @@ export class AuthService {
 
     return this.http
       .post<IAuthReturn>(this.anonymousSignInUrl, loginData)
-      .pipe(catchError(this.handleError))
+      .pipe(catchError(this.handleError.bind(this)))
       .subscribe({
         next: this.handleLogin.bind(this),
       });
@@ -101,10 +122,10 @@ export class AuthService {
   }
 
   private autoLogout(timeToLogout: number) {
-    console.log("Time to logout: " + timeToLogout);
+    console.log('Time to logout: ' + timeToLogout);
     this.logoutTimer = setTimeout(() => {
       this.logout();
-    }, timeToLogout)
+    }, timeToLogout);
   }
 
   private handleLogin(authResponse: IAuthReturn) {
@@ -122,12 +143,46 @@ export class AuthService {
       authResponse.refreshToken
     );
 
-    localStorage.setItem("portfolioUser", JSON.stringify(nextUser));
+    localStorage.setItem('portfolioUser', JSON.stringify(nextUser));
     this.userSubject.next(nextUser);
 
     this.autoLogout(+authResponse.expiresIn * 1000);
 
     this.showAuthenticatedSnackBar();
+  }
+
+  refreshToken() {
+    let prevUser: User | null = null;
+    this.userSubject
+      .pipe(
+        take(1),
+        exhaustMap((user) => {
+          prevUser = user;
+          return this.http.post<IRefreshTokenReturn>(this.refreshTokenUrl, {
+            grant_type: 'refresh_token',
+            refresh_token: user?.refreshToken,
+          });
+        }),
+        catchError(this.handleError.bind(this))
+      )
+      .subscribe({
+        next: (refreshResponse) => {
+          let expirationDate = new Date(
+            new Date().getTime() + +refreshResponse.expiresIn * 1000
+          );
+
+          let email = !!prevUser?.email ? prevUser?.email : null;
+
+          const nextUser = new User(email, prevUser!.id, refreshResponse.idToken, expirationDate, refreshResponse.refreshToken);
+
+          localStorage.setItem('portfolioUser', JSON.stringify(nextUser));
+          this.userSubject.next(nextUser);
+
+          this.autoLogout(+refreshResponse.expiresIn * 1000);
+
+          this.showAuthenticatedSnackBar();
+        },
+      });
   }
 
   private handleError(errorResponse: HttpErrorResponse) {
