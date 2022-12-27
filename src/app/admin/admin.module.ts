@@ -12,6 +12,9 @@ import { MatCardModule } from '@angular/material/card';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatOptionModule } from '@angular/material/core';
 import { MatSelectModule } from '@angular/material/select';
+import { CoursesComponent } from './about/courses/courses.component';
+import { LanguagesComponent } from './about/languages/languages.component';
+import { TechnologiesComponent } from './about/technologies/technologies.component';
 
 @NgModule({
   declarations: [
@@ -19,8 +22,21 @@ import { MatSelectModule } from '@angular/material/select';
     AdminProjectsEditComponent,
     AdminTagsComponent,
     AdminAboutComponent,
+    CoursesComponent,
+    LanguagesComponent,
+    TechnologiesComponent,
   ],
-  imports: [SharedModule, AdminRoutingModule, MatInputModule, MatFormFieldModule, MatButtonModule, MatCardModule, MatChipsModule, MatOptionModule, MatSelectModule],
+  imports: [
+    SharedModule,
+    AdminRoutingModule,
+    MatInputModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatCardModule,
+    MatChipsModule,
+    MatOptionModule,
+    MatSelectModule,
+  ],
   exports: [],
 })
 export class AdminModule {}
