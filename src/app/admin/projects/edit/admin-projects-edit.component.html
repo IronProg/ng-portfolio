@@ -1,0 +1,50 @@
+<form [formGroup]="projectForm" (submit)="newProject()">
+  <div class="card mx-auto" style="max-width: 800px;">
+    <div class="text-center">
+      <div class="row py-4">
+        <h1>Create new Project</h1>
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Title</mat-label>
+            <input type="text" matInput formControlName="title">
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Description</mat-label>
+            <textarea matInput formControlName="description"></textarea>
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field>
+            <mat-label>Image Url</mat-label>
+            <input type="text" matInput formControlName="imageUrl">
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field>
+            <mat-label>Code Url</mat-label>
+            <input type="text" matInput formControlName="codeUrl">
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field>
+            <mat-label>View Url</mat-label>
+            <input type="text" matInput formControlName="viewUrl">
+          </mat-form-field>
+        </div>
+        <div class="col-12">
+          <mat-form-field>
+            <mat-label>Tags</mat-label>
+            <mat-select multiple formControlName="tags">
+              <mat-option value="tagId">Tag</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+        <div class="col-12 d-flex justify-content-center">
+          <button mat-raised-button color="primary">Confirm</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</form>
