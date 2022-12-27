@@ -3,7 +3,7 @@ export interface Project {
   title: string,
   imageUrl: string,
   description: string,
-  viewUrl: string,
-  codeUrl: string,
+  viewUrl?: string,
+  codeUrl?: string,
   tags: string[]
 }

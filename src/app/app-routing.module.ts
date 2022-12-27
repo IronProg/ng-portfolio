@@ -1,21 +1,36 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { AboutComponent } from './about/about.component';
-import { ContactComponent } from './contact/contact.component';
-import { AdminGuard } from './login/admin.guard';
-import { AuthGuard } from './login/auth.guard';
-import { LoginComponent } from './login/login.component';
-import { ProjectsComponent } from './projects/projects.component';
 
 const routes: Routes = [
-  { path: "", component: ProjectsComponent, canActivate: [AuthGuard] },
-  { path: "login", component: LoginComponent },
-  { path: "contact", component: ContactComponent, canActivate: [AuthGuard] },
-  { path: "about", component: AboutComponent, canActivate: [AuthGuard] },
+  {
+    path: '',
+    loadChildren: () =>
+      import('./projects/projects.module').then((mod) => mod.ProjectsModule),
+  },
+  {
+    path: 'login',
+    loadChildren: () =>
+      import('./login/login.module').then((mod) => mod.LoginModule),
+  },
+  {
+    path: 'contact',
+    loadChildren: () =>
+      import('./contact/contact.module').then((mod) => mod.ContactModule),
+  },
+  {
+    path: 'about',
+    loadChildren: () =>
+      import('./about/about.module').then((mod) => mod.AboutModule),
+  },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.module').then((mod) => mod.AdminModule),
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

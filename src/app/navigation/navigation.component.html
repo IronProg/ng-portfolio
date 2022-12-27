@@ -64,8 +64,9 @@
                   Projects
                 </button>
                 <mat-menu #projectsMenu>
-                  <a mat-menu-item>Add Project</a>
-                  <a mat-menu-item>Manage Projects</a>
+                  <a [routerLink]="['/admin/projects/new']" mat-menu-item>Add Project</a>
+                  <a [routerLink]="['/admin/projects']" mat-menu-item>Manage Projects</a>
+                  <a [routerLink]="['/admin/projects/tags']" mat-menu-item>Manage Tags</a>
                 </mat-menu>
               </ng-container>
               <button type="button" mat-menu-item (click)="onSignOut()">

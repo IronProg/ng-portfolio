@@ -1,0 +1,45 @@
+<div class="row gy-3">
+  <div
+    class="col-12 col-md-6">
+    <div class="card">
+      <form [formGroup]="tagsForm" (submit)="newTag()" class="row">
+        <div class="col-4">
+          <mat-form-field style="width: 100px" class="ps-3">
+            <mat-label>Tag</mat-label>
+            <input type="text" formControlName="tag" matInput id="">
+          </mat-form-field>
+          <p *ngIf="tagsForm.controls['tag'].hasError('pattern') && tagsForm.controls['tag'].touched"
+            class="ms-2 text-danger"
+            >
+            <small>Only Uppercase!</small>
+          </p>
+        </div>
+        <div class="col-6">
+          <mat-form-field class="px-3 w-100">
+            <mat-label>Name</mat-label>
+            <input type="text" formControlName="name" matInput>
+          </mat-form-field>
+        </div>
+        <div class="col-2 pt-2">
+          <button mat-mini-fab color="accent" type="submit" [disabled]="!tagsForm.valid">
+            <mat-icon>add</mat-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div
+    *ngFor="let tag of tags"
+    class="col-12 col-md-6">
+    <div class="card">
+      <div class="card-header">
+        <h3 class="card-title my-0 d-flex justify-content-between align-items-center">
+          <span><b>{{ tag.tag }}</b> - {{ tag.name }}</span>
+          <button mat-mini-fab color="warn" (click)="deleteTag(tag.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </h3>
+      </div>
+    </div>
+  </div>
+</div>
