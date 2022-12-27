@@ -64,11 +64,14 @@
                   Projects
                 </button>
                 <mat-menu #projectsMenu>
-                  <a [routerLink]="['/admin/projects/new']" mat-menu-item>Add Project</a>
+                  <a [routerLink]="['/admin/projects/edit']" mat-menu-item>Add Project</a>
                   <a [routerLink]="['/admin/projects']" mat-menu-item>Manage Projects</a>
                   <a [routerLink]="['/admin/projects/tags']" mat-menu-item>Manage Tags</a>
                 </mat-menu>
               </ng-container>
+              <a mat-menu-item [routerLink]="['/admin/about']">
+                Edit About
+              </a>
               <button type="button" mat-menu-item (click)="onSignOut()">
                 Sign Out
               </button>
